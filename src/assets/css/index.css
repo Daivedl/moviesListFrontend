@@ -11,3 +11,26 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.margen{
+  margin-left: auto;
+  margin-right: auto;
+}
+.minAltoImg{
+  min-height: 300px;
+  max-height: 300px;
+  min-width: 400px;
+  max-width: 400px;
+}
+.margenesTarjeta{
+  margin: 1em;
+}
+@media (max-width: 900px) {
+  .carro {
+    width:auto;
+    height:auto;
+  }
+}
+.ifa{
+  margin-left: 10px;
+  margin-right: auto;
+}
