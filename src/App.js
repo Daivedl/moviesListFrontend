@@ -1,32 +1,90 @@
 
 import './assets/css/App.css';
-import { Component } from 'react';
-import { Route, Switch } from 'react-router';
-import DetalleProducto from './components/DetalleProducto';
-import Where from './components/Where';
-import Home from './components/Home';
-import Product from './components/Product';
+
+import React, { Component } from 'react';
+import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Table from 'react-bootstrap/Table';
 
 
-//rutas y hacerlo class
 
 class App extends Component{
 
-  
-  render(){
-    return(
-      //rutas
-      <Switch>
-      <Route exact path="/" component={Home} ></Route>
-      <Route exact path="/home" component={Home} ></Route>
-      <Route exact path="/where" component={Where} ></Route>
-      <Route exact path="/products" component={Product} ></Route>
-      <Route exact path="/products/:id" component={DetalleProducto} ></Route>
-      </Switch>
-    )
-  }
-
+  constructor(props) {
+    super(props);
+    this.state = {
+        db: [],
+        id: 0,
+        title: '',
+        rating: '',
+        awards: '',
+        release_date: '',
+        length: 0
+    }
 }
 
 
+
+peticionGet = () => {
+    axios.get(`http://localhost:3001/movies`)
+        .then(res => {
+            console.log(res);
+            this.setState({ db: res.data });
+        });
+}
+
+
+
+componentDidMount() {
+    this._isMounted = true;
+    this.peticionGet();
+}
+componentWillUnmount() {
+    this._isMounted = false;
+}
+
+
+
+
+render() {
+    
+    const instrumentos = this.state.db.map((movie, i) => {
+            return (
+                <tr>
+                    <th>{movie.title}</th>
+                    <th>{movie.rating}</th>
+                    <th>{movie.awards}</th>
+                    <th>{movie.release_date}</th>
+                    <th>{movie.length}</th>
+
+                </tr>
+            )
+        } 
+        
+
+    )
+
+    return (
+        <React.Fragment>
+            <div className="center">
+                <Table className="table">
+                    <thead className="thead-light">
+                        <tr>
+                            <th scope="col">title</th>
+                            <th scope="col">rating</th>
+                            <th scope="col">awards</th>
+                            <th scope="col">release_date</th>
+                            <th scope="col">length</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {instrumentos}
+                    </tbody>
+                </Table>
+
+            </div>
+        </React.Fragment>
+    )
+}
+}
 export default App;
